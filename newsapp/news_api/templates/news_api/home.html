@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News Hub - Latest Updates</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Georgia', serif;
+        }
+
+        body {
+            background-color: #121212;
+            color: #ddd;
+        }
+
+        /* Navbar */
+        .navbar {
+            background: #000;
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            width: 100%;
+            z-index: 100;
+            border-bottom: 3px solid #b71c1c;
+        }
+
+        .navbar h1 {
+            font-size: 28px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: #e53935;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #ddd;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #e53935;
+        }
+
+        .auth-buttons a {
+            padding: 8px 15px;
+            background: #e53935;
+            color: white;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .auth-buttons a:hover {
+            background: #b71c1c;
+        }
+        /* Search Section */
+        .search-section {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+
+        .search-form {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .search-group {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .search-group select, .search-group button {
+            width: 100%;
+            padding: 12px;
+            background: #1e1e1e;
+            border: 2px solid #b71c1c;
+            border-radius: 5px;
+            color: #ddd;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+
+        .search-group select:hover {
+            border-color: #e53935;
+        }
+
+        .search-group button {
+            background: #e53935;
+            cursor: pointer;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .search-group button:hover {
+            background: #b71c1c;
+        }
+
+        @media (max-width: 768px) {
+            .search-form {
+                flex-direction: column;
+            }
+        }
+
+        /* News Container */
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .card {
+            background: #1e1e1e;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 4px 10px rgba(255, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .card:hover {
+            transform: scale(1.03);
+            box-shadow: 0px 6px 14px rgba(255, 0, 0, 0.2);
+        }
+
+        .card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 6px;
+        }
+
+        .card p {
+            margin: 10px 0;
+            color: #bbb;
+        }
+
+        .card p.title {
+            font-size: 18px;
+            font-weight: bold;
+            color: white;
+        }
+
+        .card a {
+            display: inline-block;
+            padding: 8px 12px;
+            margin-top: 10px;
+            text-decoration: none;
+            color: white;
+            background: #e53935;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+
+        .card a:hover {
+            background: #b71c1c;
+        }
+
+        .card small {
+            display: block;
+            color: #999;
+            margin-top: 5px;
+        }
+
+        /* Footer */
+        .footer {
+            background: #000;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+            border-top: 3px solid #b71c1c;
+        }
+
+        .footer a {
+            color: #e53935;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+
+            .navbar {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .nav-links {
+                margin-top: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <h1>News Hub</h1>
+        <div class="nav-links">
+            <a href="#">Home</a>
+            <a href="#">World</a>
+            <a href="#">Politics</a>
+            <a href="#">Technology</a>
+            <a href="#">Sports</a>
+        </div>
+        <div class="auth-buttons">
+            <a href="#">Login</a>
+            <a href="#">Sign Up</a>
+        </div>
+    </nav>
+
+     <!-- Search Section -->
+     <section class="search-section">
+        <form action="/" method="GET" class="search-form">
+            <div class="search-group">
+                <select name="category" id="category">
+                    <option value="">All Categories</option>
+                    <option value="world">World</option>
+                    <option value="politics">Politics</option>
+                    <option value="technology">Technology</option>
+                    <option value="sports">Sports</option>
+                    <option value="business">Business</option>
+                    <option value="entertainment">Entertainment</option>
+                </select>
+            </div>
+            <div class="search-group">
+                <select name="country" id="country">
+                    <option value="">All Countries</option>
+                    <option value="us">United States</option>
+                    <option value="gb">United Kingdom</option>
+                    <option value="ca">Canada</option>
+                    <option value="au">Australia</option>
+                    <option value="in">India</option>
+                    <option value="de">Germany</option>
+                    <option value="fr">France</option>
+                </select>
+            </div>
+            <div class="search-group">
+                <button type="submit">Filter News</button>
+            </div>
+        </form>
+    </section>
+
+    <!-- News Container -->
+    <div class="container">
+        {% for article in articles %}
+        <div class="card">
+            {% if article.urlToImage %}
+            <img src="{{ article.urlToImage }}" alt="article image">
+            {% endif %}
+            <p class="title">{{ article.title }}</p>
+            <p>{{ article.description }}</p>
+            <p><em>By: {{ article.author|default:"Unknown" }}</em></p>
+            <a href="{{ article.url }}" target="_blank">Read More</a>
+            <small>Published at: {{ article.publishedAt }}</small>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>© 2024 News Hub | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+    </footer>
+
+</body>
+
+</html>
