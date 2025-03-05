@@ -32,8 +32,12 @@
             z-index: 100;
             border-bottom: 3px solid #b71c1c;
         }
+        .navbar h3 {
+            font-size: 23px;
+            font-style: italic;
+        }
 
-        .navbar h1 {
+        .navbar h2 {
             font-size: 28px;
             font-weight: bold;
             letter-spacing: 1px;
@@ -224,7 +228,15 @@
 
     <!-- Navbar -->
     <nav class="navbar">
-        <h1>News Hub</h1>
+        <div>
+            {% if user.is_authenticated %}
+                <h3>Hello {{user.username}},</h3> 
+                <h2>Welcome to News Hub</h2>
+            {% else %}
+                <h1>News Hub</h1>
+            {% endif %}
+        </div>
+
         <div class="nav-links">
             <a href="#">Home</a>
             <a href="#">World</a>
@@ -233,35 +245,39 @@
             <a href="#">Sports</a>
         </div>
         <div class="auth-buttons">
-            <a href="#">Login</a>
-            <a href="#">Sign Up</a>
+            {% if user.is_authenticated %}
+                <a href="logout">Log out</a>
+            {% else %}
+                <a href="login">Log in</a>
+                <a href="signup">Sign Up</a>
+            {% endif %}
         </div>
     </nav>
 
      <!-- Search Section -->
      <section class="search-section">
-        <form action="/" method="GET" class="search-form">
+        <form action="{% url 'home' %}" method="GET" class="search-form">
             <div class="search-group">
                 <select name="category" id="category">
                     <option value="">All Categories</option>
-                    <option value="world">World</option>
-                    <option value="politics">Politics</option>
-                    <option value="technology">Technology</option>
-                    <option value="sports">Sports</option>
-                    <option value="business">Business</option>
-                    <option value="entertainment">Entertainment</option>
+                    <option value="general" {% if selected_category == 'general' %}selected{% endif %}>General</option>
+                    <option value="world" {% if selected_category == 'world' %}selected{% endif %}>World</option>
+                    <option value="technology" {% if selected_category == 'technology' %}selected{% endif %}>Technology</option>
+                    <option value="sports" {% if selected_category == 'sports' %}selected{% endif %}>Sports</option>
+                    <option value="business" {% if selected_category == 'business' %}selected{% endif %}>Business</option>
+                    <option value="entertainment" {% if selected_category == 'entertainment' %}selected{% endif %}>Entertainment</option>
                 </select>
             </div>
             <div class="search-group">
                 <select name="country" id="country">
                     <option value="">All Countries</option>
-                    <option value="us">United States</option>
-                    <option value="gb">United Kingdom</option>
-                    <option value="ca">Canada</option>
-                    <option value="au">Australia</option>
-                    <option value="in">India</option>
-                    <option value="de">Germany</option>
-                    <option value="fr">France</option>
+                    <option value="us" {% if selected_country == 'us' %}selected{% endif %}>United States</option>
+                    <option value="gb" {% if selected_country == 'gb' %}selected{% endif %}>United Kingdom</option>
+                    <option value="ca" {% if selected_country == 'ca' %}selected{% endif %}>Canada</option>
+                    <option value="au" {% if selected_country == 'au' %}selected{% endif %}>Australia</option>
+                    <option value="in" {% if selected_country == 'in' %}selected{% endif %}>India</option>
+                    <option value="de" {% if selected_country == 'de' %}selected{% endif %}>Germany</option>
+                    <option value="fr" {% if selected_country == 'fr' %}selected{% endif %}>France</option>
                 </select>
             </div>
             <div class="search-group">
