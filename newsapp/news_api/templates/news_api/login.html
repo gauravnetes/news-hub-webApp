@@ -1,3 +1,5 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,27 +7,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - News Hub</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
 </head>
 
-<body>
-    <h1>Login</h1>
+<body class="dark-theme">
+    <div class="auth-container">
+        <h2>Login to News Hub</h2>
+        <form action="{% url 'login' %}" method="POST">
+            {% csrf_token %}
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required>
 
-    {% if error %}
-        <p style="color: red;">{{ error }}</p>
-    {% endif %}
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required>
 
-    <form action="{% url 'login' %}" method="POST">
-        {% csrf_token %}
-        <label for="email">Email:</label>
-        <input type="email" name="email" required>
-        
-        <label for="password">Password:</label>
-        <input type="password" name="password" required>
-        
-        <button type="submit">Login</button>
-    </form>
+            <button type="submit" class="btn-red">Login</button>
+        </form>
 
-    <p>Don't have an account? <a href="{% url 'signup_page' %}">Sign up here</a></p>
+        <p>Don't have an account? <a href="{% url 'signup_page' %}">Sign up here</a></p>
 </body>
 
 </html>
