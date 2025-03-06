@@ -123,6 +123,22 @@
             margin: 40px 0 20px;
             font-size: 2.5rem;
         }
+
+        /* delete bookmark */
+        .delete-btn {
+            background: #e53935;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background 0.3s;
+        }
+
+        .delete-btn:hover {
+            background: #b71c1c;
+        }
         
     </style>
 </head>
@@ -133,7 +149,6 @@
         <div class="nav-links">
             <a href="{% url 'home' %}" class="back-button"> ← Home</a>
         </div>
-
     </nav>
 
     <!-- Bookmarks Container -->
@@ -149,14 +164,26 @@
 
     <script>
         // Load bookmarks from localStorage
-        const bookmarks = JSON.parse(localStorage.getItem('bookmarks')) || [];
+        let bookmarks = JSON.parse(localStorage.getItem('bookmarks')) || [];
         const container = document.getElementById('bookmarks-container');
+
+        // Function to delete a bookmark
+        function deleteBookmark(index) {
+            // Remove the bookmark from the array
+            bookmarks.splice(index, 1);
+
+            // Update localStorage
+            localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
+
+            // Refresh the displayed bookmarks
+            displayBookmarks();
+        }
 
         // Display bookmarks in card format
         function displayBookmarks() {
             container.innerHTML = ''; // Clear existing content
 
-            bookmarks.forEach(article => {
+            bookmarks.forEach((article, index) => {
                 const card = document.createElement('div');
                 card.className = 'card';
                 card.innerHTML = `
@@ -166,6 +193,7 @@
                     <p><em>By: ${article.author || 'Unknown'}</em></p>
                     <a href="${article.url}" target="_blank">Read More</a>
                     <small>Published at: ${article.publishedAt}</small>
+                    <button class="delete-btn" onclick="deleteBookmark(${index})">Delete</button>
                 `;
                 container.appendChild(card);
             });
