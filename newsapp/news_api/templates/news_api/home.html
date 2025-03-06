@@ -272,7 +272,9 @@
             <a href="#">Politics</a>
             <a href="#">Technology</a>
             <a href="#">Sports</a>
+            {% if user.is_authenticated %}
             <a href="bookmarks" style="color: #e53935;">Bookmarks</a>
+            {% endif%}
         </div>
         <div class="auth-buttons">
             {% if user.is_authenticated %}
@@ -328,8 +330,9 @@
             <p><em>By: {{ article.author|default:"Unknown" }}</em></p>
             <a href="{{ article.url }}" target="_blank">Read More</a>
             <small>Published at: {{ article.publishedAt }}</small>
-
+            {% if user.is_authenticated %}
             <button class="bookmark-btn" onclick="toggleBookmark(this, '{{ article.title }}', '{{ article.description }}', '{{ article.url }}', '{{ article.urlToImage }}')">&#9734;</button>
+            {% endif %}
         </div>
         {% endfor %}
     </div>
