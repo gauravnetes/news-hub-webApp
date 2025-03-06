@@ -187,6 +187,35 @@
             margin-top: 5px;
         }
 
+        .bookmark-btn {
+            background: none;
+            border: none;
+            color: #e53935;
+            cursor: pointer;
+            font-size: 20px;
+            transition: color 0.3s;
+        }
+
+        .bookmark-btn.bookmarked {
+            color: #b71c1c;
+        }
+
+        .bookmark-btn:hover {
+            color: #b71c1c;
+        }
+
+        /* Bookmarks Section */
+        .bookmarks-section {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        .bookmarks-section h2 {
+            color: #e53935;
+            margin-bottom: 20px;
+        }
+
         /* Footer */
         .footer {
             background: #000;
@@ -243,6 +272,7 @@
             <a href="#">Politics</a>
             <a href="#">Technology</a>
             <a href="#">Sports</a>
+            <a href="bookmarks" style="color: #e53935;">Bookmarks</a>
         </div>
         <div class="auth-buttons">
             {% if user.is_authenticated %}
@@ -270,15 +300,15 @@
             </div>
             <div class="search-group">
                 <select name="country" id="country">
-                    <option value="">All Countries</option>
-                    <option value="us" {% if selected_country == 'us' %}selected{% endif %}>United States</option>
-                    <option value="gb" {% if selected_country == 'gb' %}selected{% endif %}>United Kingdom</option>
-                    <option value="ca" {% if selected_country == 'ca' %}selected{% endif %}>Canada</option>
-                    <option value="au" {% if selected_country == 'au' %}selected{% endif %}>Australia</option>
-                    <option value="in" {% if selected_country == 'in' %}selected{% endif %}>India</option>
-                    <option value="de" {% if selected_country == 'de' %}selected{% endif %}>Germany</option>
-                    <option value="fr" {% if selected_country == 'fr' %}selected{% endif %}>France</option>
-                </select>
+                <option value="">All Countries</option>
+                <option value="us" {% if selected_country == 'us' %}selected{% endif %}>United States</option>
+                <option value="gb" {% if selected_country == 'gb' %}selected{% endif %}>United Kingdom</option>
+                <option value="ca" {% if selected_country == 'ca' %}selected{% endif %}>Canada</option>
+                <option value="au" {% if selected_country == 'au' %}selected{% endif %}>Australia</option>
+                <option value="in" {% if selected_country == 'in' %}selected{% endif %}>India</option>
+                <option value="de" {% if selected_country == 'de' %}selected{% endif %}>Germany</option>
+                <option value="fr" {% if selected_country == 'fr' %}selected{% endif %}>France</option>
+            </select>
             </div>
             <div class="search-group">
                 <button type="submit">Filter News</button>
@@ -298,15 +328,77 @@
             <p><em>By: {{ article.author|default:"Unknown" }}</em></p>
             <a href="{{ article.url }}" target="_blank">Read More</a>
             <small>Published at: {{ article.publishedAt }}</small>
+
+            <button class="bookmark-btn" onclick="toggleBookmark(this, '{{ article.title }}', '{{ article.description }}', '{{ article.url }}', '{{ article.urlToImage }}')">&#9734;</button>
         </div>
         {% endfor %}
     </div>
+
+    <!-- Bookmarks Section -->
+    <section class="bookmarks-section">
+        <h2>Bookmarked News</h2>
+        <div id="bookmarks-container" class="container"></div>
+    </section>
 
     <!-- Footer -->
     <footer class="footer">
         <p>© 2024 News Hub | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
     </footer>
 
+    <!-- In your home page's script section -->
+<script>
+    // Load bookmarks from localStorage
+    let bookmarks = JSON.parse(localStorage.getItem('bookmarks')) || [];
+
+    function toggleBookmark(btn, title, description, url, imageUrl, author, publishedAt) {
+        // Normalize data for comparison
+        const normalizedTitle = title.trim().toLowerCase();
+        
+        const index = bookmarks.findIndex(b => 
+            b.title.trim().toLowerCase() === normalizedTitle
+        );
+
+        if (index === -1) {
+            bookmarks.push({
+                title: title,
+                description: description,
+                url: url,
+                imageUrl: imageUrl,
+                author: author,
+                publishedAt: publishedAt
+            });
+            btn.classList.add('bookmarked');
+            btn.innerHTML = '&#9733;'; // Filled star
+        } else {
+            bookmarks.splice(index, 1);
+            btn.classList.remove('bookmarked');
+            btn.innerHTML = '&#9734;'; // Empty star
+        }
+        
+        // Save to localStorage
+        localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
+    }
+
+    // Initialize bookmarked state on page load
+    document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('.bookmark-btn').forEach(btn => {
+            const title = btn.dataset.title;
+            const normalizedTitle = title.trim().toLowerCase();
+            
+            const isBookmarked = bookmarks.some(b => 
+                b.title.trim().toLowerCase() === normalizedTitle
+            );
+
+            if(isBookmarked) {
+                btn.classList.add('bookmarked'); 
+                btn.innerHTML = '&#9733;'; // Filled star (fixed semicolon)
+            } else {
+                btn.classList.remove('bookmarked'); 
+                btn.innerHTML = '&#9734;'; // Empty star
+            }
+        });
+    });
+</script>
 </body>
 
 </html>

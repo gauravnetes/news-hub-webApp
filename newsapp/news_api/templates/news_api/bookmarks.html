@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News Hub - Bookmarks</title>
+    <style>
+        /* Include all the same CSS styles from home.html */
+        /* ... [paste all your existing CSS here] ... */
+        /* News Container */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Georgia', serif;
+        }
+
+        body {
+            background-color: #121212;
+            color: #ddd;
+        }
+
+
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .card {
+            background: #1e1e1e;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 4px 10px rgba(255, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .card:hover {
+            transform: scale(1.03);
+            box-shadow: 0px 6px 14px rgba(255, 0, 0, 0.2);
+        }
+
+        .card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 6px;
+        }
+
+        .card p {
+            margin: 10px 0;
+            color: #bbb;
+        }
+
+        .card p.title {
+            font-size: 18px;
+            font-weight: bold;
+            color: white;
+        }
+
+        .card a {
+            display: inline-block;
+            padding: 8px 12px;
+            margin-top: 10px;
+            text-decoration: none;
+            color: white;
+            background: #e53935;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+
+        .card a:hover {
+            background: #b71c1c;
+        }
+
+        .card small {
+            display: block;
+            color: #999;
+            margin-top: 5px;
+        }
+
+        /* Add to existing navbar styles */
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .back-button {
+            color: #ddd;
+            text-decoration: none;
+            font-size: 28px;
+            transition: 0.3s;
+            line-height: 1;
+            padding: 0 10px;
+        }
+
+        .back-button:hover {
+            color: #e53935;
+            transform: translateX(-3px);
+        }
+
+        /* Adjust existing navbar h2 style */
+        .navbar h2 {
+            font-size: 28px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: #e53935;
+            margin: 0;
+        }
+
+        /* Add specific styles for bookmarks page */
+        .bookmarks-heading {
+            color: #e53935;
+            text-align: center;
+            margin: 40px 0 20px;
+            font-size: 2.5rem;
+        }
+        
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-links">
+            <a href="{% url 'home' %}" class="back-button"> ← Home</a>
+        </div>
+
+    </nav>
+
+    <!-- Bookmarks Container -->
+    <div class="main-container">
+        <h1 class="bookmarks-heading">Your Bookmarked Articles</h1>
+        <div class="container" id="bookmarks-container"></div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>© 2024 News Hub | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+    </footer>
+
+    <script>
+        // Load bookmarks from localStorage
+        const bookmarks = JSON.parse(localStorage.getItem('bookmarks')) || [];
+        const container = document.getElementById('bookmarks-container');
+
+        // Display bookmarks in card format
+        function displayBookmarks() {
+            container.innerHTML = ''; // Clear existing content
+
+            bookmarks.forEach(article => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.innerHTML = `
+                    ${article.imageUrl ? `<img src="${article.imageUrl}" alt="article image">` : ''}
+                    <p class="title">${article.title}</p>
+                    <p>${article.description}</p>
+                    <p><em>By: ${article.author || 'Unknown'}</em></p>
+                    <a href="${article.url}" target="_blank">Read More</a>
+                    <small>Published at: ${article.publishedAt}</small>
+                `;
+                container.appendChild(card);
+            });
+
+            // Show message if no bookmarks
+            if (bookmarks.length === 0) {
+                container.innerHTML = `
+                    <div style="color: #999; text-align: center; width: 100%; padding: 40px;">
+                        No bookmarks found. Start saving articles from the home page!
+                    </div>
+                `;
+            }
+        }
+
+        // Initial display
+        displayBookmarks();
+    </script>
+</body>
+
+</html>

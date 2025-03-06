@@ -82,3 +82,6 @@ def login_user(request):
 def logout_user(request): 
     logout(request)
     return redirect('home')
+
+def bookmark_page(request): 
+    return render(request, 'news_api/bookmarks.html')
