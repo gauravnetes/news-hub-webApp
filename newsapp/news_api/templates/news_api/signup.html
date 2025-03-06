@@ -15,8 +15,8 @@
             <h2>Sign Up for News Hub</h2>
             <form action="{% url 'signup' %}" method="POST" name='signup'>
                 {% csrf_token %}
-                <label for="username">Username</label>
-                <input type="text" id="username" name="username" required>
+                <label for="name">Username</label>
+                <input type="text" id="username" name="name" required>
     
                 <label for="email">Email</label>
                 <input type="email" id="email" name="email" required>
