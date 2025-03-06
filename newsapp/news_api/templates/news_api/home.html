@@ -235,7 +235,14 @@
         .footer a:hover {
             text-decoration: underline;
         }
-
+        /* signup message */
+        .signup-message span {
+            color: #e53935; /* Highlight color */
+            font-weight: bold;
+        }
+        .highlight-text {
+            color: #e53935;
+        }
         @media (max-width: 768px) {
             .container {
                 grid-template-columns: 1fr;
@@ -259,23 +266,33 @@
     <nav class="navbar">
         <div>
             {% if user.is_authenticated %}
-                <h3>Hello {{user.username}},</h3> 
+                <h3> <span class="highlight-text">Hello </span>{{user.username}},</h3> 
                 <h2>Welcome to News Hub</h2>
             {% else %}
                 <h1>News Hub</h1>
             {% endif %}
         </div>
-
+    
+        <!-- Eye-catching sign-up text -->
+        {% if not user.is_authenticated %}
+        <div class="signup-message">
+            <p>
+                <span>Sign up</span> to <span>bookmark</span> your favorite news!  
+            </p>
+        </div>
+        
+        {% endif %}
+    
         <div class="nav-links">
-            <a href="#">Home</a>
-            <a href="#">World</a>
-            <a href="#">Politics</a>
-            <a href="#">Technology</a>
-            <a href="#">Sports</a>
+            <a href="{% url 'home' %}?category=general">Home</a>
+            <a href="{% url 'home' %}?category=business">Business</a>
+            <a href="{% url 'home' %}?category=technology">Technology</a>
+            <a href="{% url 'home' %}?category=sports">Sports</a>
             {% if user.is_authenticated %}
             <a href="bookmarks" style="color: #e53935;">Bookmarks</a>
-            {% endif%}
+            {% endif %}
         </div>
+    
         <div class="auth-buttons">
             {% if user.is_authenticated %}
                 <a href="logout">Log out</a>
@@ -293,7 +310,6 @@
                 <select name="category" id="category">
                     <option value="">All Categories</option>
                     <option value="general" {% if selected_category == 'general' %}selected{% endif %}>General</option>
-                    <option value="world" {% if selected_category == 'world' %}selected{% endif %}>World</option>
                     <option value="technology" {% if selected_category == 'technology' %}selected{% endif %}>Technology</option>
                     <option value="sports" {% if selected_category == 'sports' %}selected{% endif %}>Sports</option>
                     <option value="business" {% if selected_category == 'business' %}selected{% endif %}>Business</option>
@@ -338,10 +354,7 @@
     </div>
 
     <!-- Bookmarks Section -->
-    <section class="bookmarks-section">
-        <h2>Bookmarked News</h2>
-        <div id="bookmarks-container" class="container"></div>
-    </section>
+    
 
     <!-- Footer -->
     <footer class="footer">
